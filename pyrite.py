@@ -159,6 +159,15 @@ def index():
     
     return make_page('index', context)
 
+@APP.route("/<name>")
+def page(name):
+    request = flask.request
+    context = dict()
+    context['color_index'] = int(request.args.get('color_index', 0))
+    context['from'] = request.args.get('from', '-6hours')
+
+    return make_page(name, context)
+
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', debug=True)
