@@ -1,0 +1,214 @@
+---
+global_graph: &global_graph
+  width: 586
+  height: 308
+  lineWidth: 3
+  bgcolor: [black, white]
+  fgcolor: [white, black]
+  majorGridLineColor: [white, black]
+  minorGridLineColor: [grey, darkgrey]
+graphs:
+  Downstairs_Temperatures:
+    <<: *global_graph
+    data:
+      1:
+        Current_(F):
+          target: "stats.gauges.temperature.nest.downstairs.current_temp"
+          color: [green, "008800"]
+      2:
+        Target_High_(F): 
+          target: "stats.gauges.temperature.nest.downstairs.target_temp_high"
+          color: [blue, blue]
+      3:
+        Target_Low_(F): 
+          target: "stats.gauges.temperature.nest.downstairs.target_temp_low"
+          color: [red, red]
+    yMin: 60
+  Upstairs_Temperatures:
+    <<: *global_graph
+    data:
+      1:
+        Current_(F):
+          target: "stats.gauges.temperature.nest.upstairs.current_temp"
+          color: [green, "008800"]
+      2:
+        Target_High_(F): 
+          target: "stats.gauges.temperature.nest.upstairs.target_temp_high"
+          color: [blue, blue]
+      3:
+        Target_Low_(F): 
+          target: "stats.gauges.temperature.nest.upstairs.target_temp_low"
+          color: [red, red]
+    yMin: 60
+  Upstairs_System_State:
+    <<: *global_graph
+    data:
+      1:
+        Fan:
+          target: "stats.gauges.temperature.nest.upstairs.fan_on"
+          color: [white, "AFEEEE"]
+      2:
+        Cool: 
+          target: "stats.gauges.temperature.nest.upstairs.ac_on"
+          color: [blue, blue]
+      3:
+        Heat: 
+          target: "stats.gauges.temperature.nest.upstairs.heat_on"
+          color: [yellow, yellow]
+      4:
+        Aux: 
+          target: "stats.gauges.temperature.nest.upstairs.aux_on"
+          color: [orange, orange]
+      5:
+        Emergency: 
+          target: "stats.gauges.temperature.nest.upstairs.emergency_on"
+          color: [red, red]
+    yMin: 0
+    yMax: 5
+    yStep: 1
+    areaMode: stacked
+  Downstairs_System_State:
+    <<: *global_graph
+    data:
+      1:
+        Fan:
+          target: "stats.gauges.temperature.nest.downstairs.fan_on"
+          color: [white, "AFEEEE"]
+      2:
+        Cool: 
+          target: "stats.gauges.temperature.nest.downstairs.ac_on"
+          color: [blue, blue]
+      3:
+        Heat: 
+          target: "stats.gauges.temperature.nest.downstairs.heat_on"
+          color: [yellow, yellow]
+      4:
+        Aux: 
+          target: "stats.gauges.temperature.nest.downstairs.aux_on"
+          color: [orange, orange]
+      5:
+        Emergency: 
+          target: "stats.gauges.temperature.nest.downstairs.emergency_on"
+          color: [red, red]
+    yMin: 0
+    yMax: 5
+    yStep: 1
+    areaMode: stacked
+  Downstairs_Humidity:
+    <<: *global_graph
+    data:
+      1:
+        Current_Humidity:
+          target: "stats.gauges.temperature.nest.downstairs.current_humidity"
+          color: [green, "008800"]
+      2:
+        Target_Humidity: 
+          target: "stats.gauges.temperature.nest.downstairs.target_humidity"
+          color: [blue, blue]
+    yMin: 0
+    yMax: 100
+  Upstairs_Humidity:
+    <<: *global_graph
+    data:
+      1:
+        Current_Humidity:
+          target: "stats.gauges.temperature.nest.upstairs.current_humidity"
+          color: [green, "008800"]
+      2:
+        Target_Humidity: 
+          target: "stats.gauges.temperature.nest.upstairs.target_humidity"
+          color: [blue, blue]
+    yMin: 0
+    yMax: 100
+  Total_UPS_Load:
+    <<: *global_graph
+    data:
+      1:
+        Total_Capacity_(Watts):
+          target:
+            - "stats.gauges.power.ups.basement.load_max"
+            - "stats.gauges.power.ups.office.load_max"
+          target_func: "sumSeries"
+          color: [blue, blue]
+      2:
+        Total_Load_(Watts):
+          target:
+            - "stats.gauges.power.ups.basement.load"
+            - "stats.gauges.power.ups.office.load"
+          target_func: "sumSeries"
+          color: [green, "008800"]
+  Total_Remaining_Time_(Minutes):
+    <<: *global_graph
+    data:
+      1:
+        Basement:
+          target: "stats.gauges.power.ups.basement.remaining_time"
+          target_func: "sumSeries"
+          color: [blue, blue]
+      2:
+        Office:
+          target: "stats.gauges.power.ups.office.remaining_time"
+          target_func: "sumSeries"
+          color: [green, "008800"]
+    yMin: 0
+  Basement_UPS_Load:
+    <<: *global_graph
+    data:
+      1:
+        Load_(Watts):
+          target: "stats.gauges.power.ups.basement.load"
+          color: [green, "008800"]
+      2:
+        Capacity_(Watts):
+          target: "stats.gauges.power.ups.basement.load_max"
+          color: [blue, blue]
+  Office_UPS_Load:
+    <<: *global_graph
+    data:
+      1:
+        Load_(Watts):
+          target: "stats.gauges.power.ups.office.load"
+          color: [green, "008800"]
+      2:
+        Capacity_(Watts):
+          target: "stats.gauges.power.ups.office.load_max"
+          color: [blue, blue]
+  Basement_UPS_Remaining_Time:
+    <<: *global_graph
+    data:
+      1:
+        Remaining_Time_(Minutes):
+          target: "stats.gauges.power.ups.basement.remaining_time"
+          color: [green, "008800"]
+    yMin: 0
+  Office_UPS_Remaining_Time:
+    <<: *global_graph
+    data:
+      1:
+        Remaining_Time_(Minutes):
+          target: "stats.gauges.power.ups.office.remaining_time"
+          color: [green, "008800"]
+    yMin: 0
+global_page: &global_page
+  bgcolor: [black, white]
+pages:
+  index:
+    <<: *global_page
+    rows:
+      1:
+        1: Total_UPS_Load
+        2: Total_Remaining_Time_(Minutes)
+      2:
+        1: Upstairs_Temperatures
+        2: Upstairs_System_State
+        3: Upstairs_Humidity
+        4: Downstairs_Temperatures
+        5: Downstairs_System_State
+        6: Downstairs_Humidity
+      3:
+        1: Office_UPS_Load
+        2: Office_UPS_Remaining_Time
+      4:
+        1: Basement_UPS_Load
+        2: Basement_UPS_Remaining_Time
+
