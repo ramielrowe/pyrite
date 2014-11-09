@@ -115,6 +115,7 @@ PAGE_HTML = """
   <body>
   <div class="header">
     <a href="?from=-6hour">6 Hour</a> - <a href="?from=-24hour">24 Hour</a>
+    <a href="?from=-6hour&color_index=1">6 Hour - White</a> - <a href="?from=-24hour&color_index=1">24 Hour - White</a>
   </div>
   %(rows)s
   </body>
