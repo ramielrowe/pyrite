@@ -129,8 +129,17 @@ ROW_HTML = """
 IMAGE_HTML = '    <img src="/graph/%(image_name)s?from=%(from)s&color_index=%(color_index)s" />'
 
 
-def make_page(name, context):
+def make_page(name):
     page_config = CONFIG['pages'][name]
+    default_color_index = page_config.get('default_color_index', 0)
+    default_from = page_config.get('default_from', '-6bours')
+
+    request = flask.request
+    context = dict()
+    context['color_index'] = int(request.args.get('color_index',
+                                                  default_color_index))
+    context['from'] = request.args.get('from', default_from)
+
     rows = list()
 
     for i in range(1, len(page_config['rows']) + 1):
@@ -152,24 +161,14 @@ def make_page(name, context):
 
 @APP.route("/")
 def index():
-    request = flask.request
-    context = dict()
-    context['color_index'] = int(request.args.get('color_index', 0))
-    context['from'] = request.args.get('from', '-6hours')
-    
-    return make_page('index', context)
+    return make_page('index')
 
 @APP.route("/<name>")
 def page(name):
     if name not in CONFIG['pages']:
         flask.abort(404)
 
-    request = flask.request
-    context = dict()
-    context['color_index'] = int(request.args.get('color_index', 0))
-    context['from'] = request.args.get('from', '-6hours')
-
-    return make_page(name, context)
+    return make_page(name)
 
 
 if __name__ == '__main__':

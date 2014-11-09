@@ -213,6 +213,7 @@ pages:
         2: Basement_UPS_Remaining_Time
   24hour.html:
     <<: *index_page
+    default_from: -24hours
   index.html:
     <<: *index_page
 
