@@ -192,7 +192,7 @@ graphs:
 global_page: &global_page
   bgcolor: [black, white]
 pages:
-  index:
+  index: &index_page
     <<: *global_page
     rows:
       1:
@@ -211,4 +211,8 @@ pages:
       4:
         1: Basement_UPS_Load
         2: Basement_UPS_Remaining_Time
+  24hour.html:
+    <<: *index_page
+  index.html:
+    <<: *index_page
 
