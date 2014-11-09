@@ -161,6 +161,9 @@ def index():
 
 @APP.route("/<name>")
 def page(name):
+    if name not in CONFIG['pages']:
+        flask.abort(404)
+
     request = flask.request
     context = dict()
     context['color_index'] = int(request.args.get('color_index', 0))
