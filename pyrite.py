@@ -84,7 +84,8 @@ def graph(name):
     resp = requests.get(GRAPHITE_SERVER_BASE, params=url_params)
     return flask.send_file(io.BytesIO(resp.content),
                            mimetype='image/png',
-                           attachment_filename='{}.png'.format(name))
+                           attachment_filename='{}.png'.format(name),
+                           cache_timeout=0)
 
 
 PAGE_HTML = """
