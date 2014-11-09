@@ -132,7 +132,7 @@ IMAGE_HTML = '    <img src="/graph/%(image_name)s?from=%(from)s&color_index=%(co
 def make_page(name):
     page_config = CONFIG['pages'][name]
     default_color_index = page_config.get('default_color_index', 0)
-    default_from = page_config.get('default_from', '-6bours')
+    default_from = page_config.get('default_from', '-6hours')
 
     request = flask.request
     context = dict()
