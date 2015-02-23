@@ -24,6 +24,8 @@ graphs:
           target: "stats.gauges.temperature.nest.downstairs.target_temp_low"
           color: [red, red]
     yMin: 55
+    yMax: 80
+    yStep: 5
   Upstairs_Temperatures:
     <<: *global_graph
     data:
@@ -40,6 +42,8 @@ graphs:
           target: "stats.gauges.temperature.nest.upstairs.target_temp_low"
           color: [red, red]
     yMin: 55
+    yMax: 80
+    yStep: 5
   Upstairs_System_State:
     <<: *global_graph
     data:
