@@ -23,7 +23,7 @@ graphs:
         Target_Low_(F): 
           target: "stats.gauges.temperature.nest.downstairs.target_temp_low"
           color: [red, red]
-    yMin: 60
+    yMin: 55
   Upstairs_Temperatures:
     <<: *global_graph
     data:
@@ -39,7 +39,7 @@ graphs:
         Target_Low_(F): 
           target: "stats.gauges.temperature.nest.upstairs.target_temp_low"
           color: [red, red]
-    yMin: 60
+    yMin: 55
   Upstairs_System_State:
     <<: *global_graph
     data:
@@ -128,6 +128,7 @@ graphs:
           target:
             - "stats.gauges.power.ups.basement.load_max"
             - "stats.gauges.power.ups.office.load_max"
+            - "stats.gauges.power.ups.upstairs_network.load_max"
           target_func: "sumSeries"
           color: [blue, blue]
       2:
@@ -135,6 +136,7 @@ graphs:
           target:
             - "stats.gauges.power.ups.basement.load"
             - "stats.gauges.power.ups.office.load"
+            - "stats.gauges.power.ups.upstairs_network.load"
           target_func: "sumSeries"
           color: [green, "008800"]
   Total_Remaining_Time_(Minutes):
@@ -143,13 +145,15 @@ graphs:
       1:
         Basement:
           target: "stats.gauges.power.ups.basement.remaining_time"
-          target_func: "sumSeries"
           color: [blue, blue]
       2:
         Office:
           target: "stats.gauges.power.ups.office.remaining_time"
-          target_func: "sumSeries"
           color: [green, "008800"]
+      3:
+        Upstairs_Network:
+          target: "stats.gauges.power.ups.upstairs_network.remaining_time"
+          color: [red, red]
     yMin: 0
   Basement_UPS_Load:
     <<: *global_graph
@@ -173,6 +177,17 @@ graphs:
         Capacity_(Watts):
           target: "stats.gauges.power.ups.office.load_max"
           color: [blue, blue]
+  Upstairs_Network_UPS_Load:
+    <<: *global_graph
+    data:
+      1:
+        Load_(Watts):
+          target: "stats.gauges.power.ups.upstairs_network.load"
+          color: [green, "008800"]
+      2:
+        Capacity_(Watts):
+          target: "stats.gauges.power.ups.upstairs_network.load_max"
+          color: [blue, blue]
   Basement_UPS_Remaining_Time:
     <<: *global_graph
     data:
@@ -187,6 +202,14 @@ graphs:
       1:
         Remaining_Time_(Minutes):
           target: "stats.gauges.power.ups.office.remaining_time"
+          color: [green, "008800"]
+    yMin: 0
+  Upstairs_Network_UPS_Remaining_Time:
+    <<: *global_graph
+    data:
+      1:
+        Remaining_Time_(Minutes):
+          target: "stats.gauges.power.ups.upstairs_network.remaining_time"
           color: [green, "008800"]
     yMin: 0
 global_page: &global_page
@@ -211,6 +234,9 @@ pages:
       4:
         1: Basement_UPS_Load
         2: Basement_UPS_Remaining_Time
+      5:
+        1: Upstairs_Network_UPS_Load
+        2: Upstairs_Network_UPS_Remaining_Time
   24hour.html:
     <<: *index_page
     default_from: -24hours
