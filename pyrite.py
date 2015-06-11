@@ -1,18 +1,36 @@
 import io
+import logging
 import os
 
 import flask
 import requests
 import yaml
 
+
 def load_config(path):
     with open(path, 'r') as fp:
         return yaml.load(fp)
 
-GRAPHITE_SERVER_BASE = os.getenv('GRAPHITE_SERVER_BASE', 'http://localhost:50080/render/')
+GRAPHITE_ADDR_VAR = 'GRAPHITE_PORT_80_TCP_ADDR'
+GRAPHITE_PORT_VAR = 'GRAPHITE_PORT_80_TCP_PORT'
+
+GRAPHITE_ADDR = os.environ.get(GRAPHITE_ADDR_VAR, 'localhost')
+GRAPHITE_PORT = os.environ.get(GRAPHITE_PORT_VAR, '50080')
+
+GRAPHITE_SERVER_BASE = os.getenv('GRAPHITE_SERVER_BASE',
+                                 'http://%s:%s/render/' % (GRAPHITE_ADDR,
+                                                           GRAPHITE_PORT))
+
 CONFIG_PATH = os.getenv('PYRITE_CONFIG_PATH', './pyrite.yaml')
 CONFIG = load_config(CONFIG_PATH)
 APP = flask.Flask(__name__)
+
+@APP.before_first_request
+def setup_logging():
+    if not APP.debug:
+        APP.logger.addHandler(logging.StreamHandler())
+        APP.logger.setLevel(logging.DEBUG)
+
 
 def add(url_params, conf, url_key, conf_key=None, default=None):
     url_params[url_key] = conf.get(conf_key or url_key, default)
