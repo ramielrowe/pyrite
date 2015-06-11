@@ -218,6 +218,29 @@ graphs:
     yMin: 0
 global_page: &global_page
   bgcolor: [black, white]
+  links:
+    1:
+      name: "6 Hour"
+      page: index
+      args:
+        from: "-6hour"
+    2:
+      name: "24 Hour"
+      page: index
+      args:
+        from: "-24hour"
+    3:
+      name: "6 Hour - White"
+      page: index
+      args:
+        from: "-6hour"
+        color_index: 1
+    4:
+      name: "24 Hour - White"
+      page: index
+      args:
+        from: "-24hour"
+        color_index: 1
 pages:
   index: &index_page
     <<: *global_page

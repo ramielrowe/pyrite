@@ -133,8 +133,7 @@ PAGE_HTML = """
   </head>
   <body>
   <div class="header">
-    <a href="?from=-6hour">6 Hour</a> - <a href="?from=-24hour">24 Hour</a>
-    <a href="?from=-6hour&color_index=1">6 Hour - White</a> - <a href="?from=-24hour&color_index=1">24 Hour - White</a>
+  %(links)s
   </div>
   %(rows)s
   </body>
@@ -146,6 +145,9 @@ ROW_HTML = """
   </div>"""
 
 IMAGE_HTML = '    <img src="/graph/%(image_name)s?from=%(from)s&color_index=%(color_index)s" />'
+
+LINK_HTML = '    <a href="/%(page)s?%(args)s">%(name)s</a>'
+LINK_SEP = ' - '
 
 
 def make_page(name):
@@ -159,8 +161,18 @@ def make_page(name):
                                                   default_color_index))
     context['from'] = request.args.get('from', default_from)
 
-    rows = list()
+    links = list()
+    for i in range(1, len(page_config['links']) + 1):
+        link_config = page_config['links'][i]
+        args = list()
+        for key, value in link_config['args'].iteritems():
+            args.append('%s=%s' % (key, value))
+        links.append(LINK_HTML % dict(name=link_config['name'],
+                                      page=link_config['page'],
+                                      args='&'.join(args)))
+    links_html = LINK_SEP.join(links)
 
+    rows = list()
     for i in range(1, len(page_config['rows']) + 1):
         row_config = page_config['rows'][i]
         images = list()
@@ -173,7 +185,8 @@ def make_page(name):
         rows.append(ROW_HTML % dict(images=images_html))
 
     rows_html = ''.join(rows)
-    page_dict = dict(rows=rows_html, 
+    page_dict = dict(links=links_html,
+                     rows=rows_html,
                      bgcolor=page_config['bgcolor'][context['color_index']])
     page_dict.update(context)
     return PAGE_HTML % page_dict
