@@ -69,10 +69,12 @@ def add_targets(url_params, conf):
         if keep_last_value:
             target = 'keepLastValue({},{})'.format(target, keep_last_value)
 
-        target = 'alias({},"{}")'.format(target, alias.replace('_', ' '))
+        if not datum.get('no_alias'):
+            target = 'alias({},"{}")'.format(target, alias.replace('_', ' '))
         url_params['target'].append(target)
 
-        colors.append(datum['color'])
+        if 'color' in datum:
+            colors.append(datum['color'])
     return colors
 
 
@@ -93,10 +95,6 @@ def build_graph_url_params(name, color_index):
     add_if_present(url_params, conf, 'areaMode')
     colors = add_targets(url_params, conf)
     url_params['colorList'] = ','.join([color[color_index] for color in colors])
-    if len(colors) == 1:
-        # NOTE(apmelton) - Append a comma or the server might interpret an
-        # RGB string like 005500 as the int 5500...
-        url_params['colorList'] += ','
     return url_params
 
 
