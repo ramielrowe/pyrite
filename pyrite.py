@@ -55,7 +55,19 @@ def add_targets(url_params, conf):
         target = datum['target']
 
         if isinstance(target, list):
-            target = '{}({})'.format(datum['target_func'], ','.join(target))
+            target = ','.join(target)
+            target_func = datum['target_func']
+            funcs = []
+
+            if isinstance(target_func, basestring):
+                funcs.append(target_func)
+
+            for func in funcs:
+                target = '{}({})'.format(func, target)
+
+        keep_last_value = datum.get('keep_last_value')
+        if keep_last_value:
+            target = 'keepLastValue({},{})'.format(target, keep_last_value)
 
         target = 'alias({},"{}")'.format(target, alias.replace('_', ' '))
         url_params['target'].append(target)
